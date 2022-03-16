@@ -1,0 +1,24 @@
+.product-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.card {
+    flex: auto;
+    width: 300px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border:0.5px solid #E5E9EE;
+    background-color: #E5E9EE;
+    margin: 10px;
+  }
+  
+.price {
+    color: grey;
+    font-size: 22px;
+  }
+  
