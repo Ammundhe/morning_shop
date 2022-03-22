@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Products from "./component/Products/Products";
-import Header from "./component/Header/Header";
-import Cart from "./component/Cart/Cart";
+import {Cart, Header, Products, CheckOutForm} from "./component/index";
 import axios from "axios";
 
 const App=()=>{
@@ -53,6 +51,16 @@ const App=()=>{
         const newCart= cart.filter((product)=> product.id!==productId)
         setCart(newCart)
     }
+    const handleEmptyCart= async()=>{
+        const response= await axios.get("http://localhost:3006/cart/")
+        const fetchId= response.data.map(product=>product.id)
+        for (let productId of fetchId ){
+            console.log(productId);
+            const response = await axios.delete(`http://localhost:3006/cart/${productId}`)
+            const newCart= cart.filter((product)=> product.id!==productId)
+            setCart(newCart)
+        }
+    }
     useEffect(async()=>{
         fetchAllProduct()
         fetchCart()
@@ -63,7 +71,8 @@ const App=()=>{
             <Header totalItem={(cart)?cart.length:0}/>
             <Routes>
                 <Route path="/" element={<Products products={products} AddToCart={handleAddToCart}/>}/>
-                <Route path="/cart" element={<Cart cart={cart} handleUpdateQty={handleUpdateQty} handleRemoveCart={handleRemoveCart}/>}/>
+                <Route path="/cart" element={<Cart cart={cart} handleUpdateQty={handleUpdateQty} handleRemoveCart={handleRemoveCart} handleEmptyCart={handleEmptyCart}/>}/>
+                <Route path="/checkout" element={<CheckOutForm cart={cart}/>}/>
             </Routes>
         </Router>
     )

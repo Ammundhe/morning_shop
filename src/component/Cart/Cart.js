@@ -4,13 +4,12 @@ import useStyle from "./style";
 import CartItem from "./CartItem/CartItem";
 import { Link } from "react-router-dom";
 
-const Cart=({cart,handleUpdateQty, handleRemoveCart})=>{
+const Cart=({cart,handleUpdateQty, handleRemoveCart, handleEmptyCart})=>{
     const classes=useStyle()
     const cartPrice=cart.map((product)=>{
         const {price}=product
         return price
     })
-    console.log(cart.length);
     let subTotal=0
     for(let i of cartPrice){
         subTotal+=i
@@ -18,7 +17,7 @@ const Cart=({cart,handleUpdateQty, handleRemoveCart})=>{
  
     const renderEmptyCart=()=>{
         return(
-            <Typography variant="subtitle1">You have no item in your cart <Link to={"/"}>start to add something</Link></Typography>
+            <Typography variant="subtitle1">You have no item in your cart <Link to={"/"} className={classes.link}>start to add something</Link></Typography>
         )
     }
     const renderCart=()=>{
@@ -37,8 +36,8 @@ const Cart=({cart,handleUpdateQty, handleRemoveCart})=>{
                 <div className={classes.cardDetails}>
                     <Typography variant="h4">SubTotal:${subTotal}</Typography>
                     <div>
-                        <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary">Empty Cart</Button>
-                        <Button className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">check out</Button>
+                        <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={()=>handleEmptyCart()}>Empty Cart</Button>
+                        <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">check out</Button>
                     </div>
                 </div>
             </>
